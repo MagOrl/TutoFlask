@@ -1,6 +1,9 @@
 from .app import app 
 from flask import render_template,request
 from monApp.models import Auteur, Livre
+from flask_bootstrap5 import Bootstrap
+Bootstrap(app)
+
 @app.route('/')
 def index():
     if len(request.args)==0:

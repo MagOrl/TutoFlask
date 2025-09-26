@@ -4,13 +4,12 @@
 {% if auteurs|length == 0 %}
 <p>Aucun auteur trouvé.</p>
 {% endif %}
-<table>
+<table class="table table-striped table-bordered table-hover">
   <thead>
     <tr>
       <th>ID</th>
       <th>Nom</th>
       <th>Nombre de livres</th>
-      <th>Couverture</th>
     </tr>
   </thead>
   <tbody>
@@ -19,9 +18,6 @@
       <td>{{ unAuteur.idA }}</td>
       <td>{{ unAuteur.Nom }}</td>
       <td>{{ unAuteur.livres.count() }}</td>
-      {% for liv in unAuteur.livres %}
-      <td><img src={{liv.url}} alt="Livre d'auteurs"/></td>
-      {% endfor %}
     </tr>
     {% endfor %}
   </tbody>
