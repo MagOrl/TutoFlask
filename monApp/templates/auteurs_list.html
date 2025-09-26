@@ -19,7 +19,9 @@
       <td>{{ unAuteur.idA }}</td>
       <td>{{ unAuteur.Nom }}</td>
       <td>{{ unAuteur.livres.count() }}</td>
-      <td><img href={{unLivre</td>
+      {% for liv in unAuteur.livres %}
+      <td><img src={{liv.url}} alt="Livre d'auteurs"/></td>
+      {% endfor %}
     </tr>
     {% endfor %}
   </tbody>

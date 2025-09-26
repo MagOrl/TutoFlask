@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block main %}
+<h1>Liste des livres</h1>
+<p>Nombre de livres : {{ livres|length }}</p>
+{% if livres|length == 0 %}
+<p>Aucun auteur trouvé.</p>
+{% endif %}
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Titre</th>
+      <th>Prix</th>
+      <th>url</th>
+      <th>Première de Couverture</th>
+      <th>Auteur</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for liv in livres %}
+    <tr>
+      <td>{{ liv.idL }}</td>
+      <td>{{ liv.Titre }}</td>
+      <td>{{ liv.Prix }}</td>
+      <td>{{ liv.Url }}</td>
+      <td><img src="https://m.media-amazon.com/images/I/{{ liv.Img }}" alt="{{ liv.Titre }}"/> </td>
+      <td>{{ liv.auteur.Nom }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
