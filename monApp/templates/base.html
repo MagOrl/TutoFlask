@@ -6,7 +6,7 @@
     <title>{% block title %}{% endblock %}</title>
     <link
       rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}"
+      href="{{ url_for('static', filename='style.css') }}"
     />
     <!-- Bootstrap CSS -->
     <link
@@ -78,6 +78,18 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('contact') }}">Contact</a>
+            </li>
+          </ul>
+          <ul class="dropdown-menu" aria-labelledby="auteursDropdown">
+            <li>
+              <a class="dropdown-item" href="{{ url_for('getAuteur') }}"
+                >Liste des auteurs</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ url_for('createAuteur') }}"
+                >Créer un auteur</a
+              >
             </li>
           </ul>
         </div>
