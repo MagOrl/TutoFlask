@@ -2,7 +2,7 @@ from .app import app
 from flask import render_template,request
 from monApp.models import Auteur, Livre
 from flask_bootstrap5 import Bootstrap
-from monApp.forms import FormAuteur
+from monApp.forms import FormAuteur,FormLivre
 from flask import url_for , redirect
 from .app import db
 Bootstrap(app)
@@ -26,10 +26,68 @@ def contact():
 def getAuteur():
     lesAuteurs = Auteur.query.all()
     return render_template('auteurs_list.html', title="R3.01 Dev Web avec Flask", auteurs=lesAuteurs)
+
 @app.route('/livres')
 def getLivre():
     lesLivres = Livre.query.all()
     return render_template('liste_liv.html',title='R3.01 Dev Web avec Flask',livres=lesLivres)
+
+@app.route('/livres/<idL>/update/')
+def updateLivre(idL):
+    unLivre = Livre.query.get(idL)
+    unForm = FormLivre(idL=unLivre.idL, Prix=unLivre.Prix)
+    return render_template("livre_update.html",selectedLivre=unLivre, updateForm=unForm)
+
+@app.route('/livres/save/', methods=("POST",))
+def saveLivre():
+    updatedLivre = None
+    unForm = FormLivre()
+    # recherche de l'auteur à modifier
+    idL = int(unForm.idL.data)
+    updatedLivre = Livre.query.get(idL)
+    # si les données saisies sont valides pour la mise à jour
+    if unForm.validate_on_submit(): 
+        updatedLivre.Prix = unForm.Prix.data
+        db.session.commit()
+        return redirect(url_for('viewLivre', idL=updatedLivre.idL))
+    return render_template("livre_update.html", selectedAuteur=updatedLivre, updateForm=unForm)
+@app.route('/livres/<idL>/view/')
+def viewLivre(idL):
+    unLivre = Livre.query.get(idL)
+    unForm = FormLivre(idL=unLivre.idL, Titre=unLivre.Titre)
+    return render_template("livre_view.html", selectedLivre=unLivre, viewForm=unForm)
+@app.route('/livre/')
+def createLivre():
+    unForm = FormLivre()
+    return render_template("livre_create.html", createForm=unForm)
+@app.route ('/livre/insert/', methods =("POST" ,))
+def insertLivre():
+    insertedAuteur = None
+    unForm = FormLivre()
+    if unForm.validate_on_submit(): 
+        insertedLivre = Livre(Prix=unForm.Prix.data)
+        db.session.add(insertedLivre)
+        db.session.commit()
+        insertedId = Livre.query.count()
+        return redirect(url_for('viewLivre', idL=insertedId))
+    return render_template("Livre_create.html", createForm=unForm)
+@app.route('/livre/<idL>/delete/')
+def deleteLivre(idL):
+    unLivre = Livre.query.get(idL)
+    unForm = FormLivre(idL=unLivre.idL, Nom=unLivre.Prix)
+    return render_template("livre_delete.html",selectedLivre=unLivre, deleteForm=unForm)
+@app.route ('/livre/erase/', methods =("POST" ,))
+def eraseLivre():
+    deletedLivre = None
+    unForm = FormLivre()
+    #recherche de l'auteur à supprimer
+    idL= int(unForm.idL.data)
+    deletedLivre = Livre.query.get(idL)
+    #suppression
+    db.session.delete(deletedLivre)
+    db.session.commit()
+    return redirect(url_for('getLivre'))
+
 
 @app.route('/auteurs/<idA>/update/')
 def updateAuteur(idA):
