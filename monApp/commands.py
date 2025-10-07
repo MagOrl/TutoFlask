@@ -1,6 +1,45 @@
 import click
 import logging as lg
-from .app import app, db
+from .app import app, db 
+from sqlalchemy import select
+
+@app.cli.command()
+def syncdb():
+    '''Creates all missing tables . '''
+    db.create_all()
+    lg.warning('Database synchronized!')
+    
+@app.cli.command()
+@click.argument('login')
+@click.argument('pwd')
+def newuser(login, pwd):
+    '''Adds a new user'''
+    from .models import User
+    from hashlib import sha256
+    m = sha256()
+    m.update(pwd.encode())
+    unUser = User(Login=login, Password=m.hexdigest())
+    db.session.add(unUser)
+    db.session.commit()
+    lg.warning('User ' + login + ' created!')
+
+@app.cli.command()
+@click.argument('log')
+@click.argument('pwd')
+def newpasswrd(log, pwd):
+    '''Adds a new user'''
+    from .models import User
+    from hashlib import sha256
+    
+    if not (db.session.execute(select(User).filter_by(Login=log))):
+        lg.error(f"L'utilisateur {log} n'existe pas !")
+        return 
+    m = sha256()
+    m.update(pwd.encode())
+    user = db.session.execute(select(User).filter_by(Login=log)).scalar_one()
+    user.Password = m.hexdigest()
+    db.session.commit()
+    lg.warning('Password ' + pwd + ' changed !1!!')
 
 @app.cli.command()
 @click.argument('filename')

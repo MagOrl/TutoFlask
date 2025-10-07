@@ -22,6 +22,7 @@
           >
             Voir <i class="fas fa-eye"></i
           ></a>
+          {% if current_user.is_authenticated %}
           <a
             href="{{ url_for('updateAuteur', idA=unAuteur.idA) }}"
             class="btn btn-warning"
@@ -33,6 +34,7 @@
             class="btn btn-danger"
             >Supprimer <i class="fas fa-trash"></i
           ></a>
+          {% endif %}
         </div>
       </td>
     </tr>
