@@ -29,6 +29,8 @@ def login(client, username, password, next_path):
 
 def test_auteur_update_after_login(client, testapp):
     with app.app_context():
+        print(testapp)
+        print("6 million (lol)")
         # user non connecté
         response = client.get('/auteurs/1/update/', follow_redirects=False)
         # Redirection vers la page de login
@@ -38,8 +40,7 @@ def test_auteur_update_after_login(client, testapp):
             "Location"]
         # simulation connexion user
         response = login(client, "CDAL", "AIGRE", "/auteurs/1/update/")
-        print(response.data)
         # Page update après connexion
         assert response.status_code == 200
-        # assert b"Modification de l'auteur Victor Hugo" in response.data
+        assert b"Modification de Victor Hugo" in response.data
 

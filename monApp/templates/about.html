@@ -1,10 +1,14 @@
-<!doctype html>
-<html>
-  <head>
-    <title>{{title}}</title>
-    <link rel="stylesheet" href="{{ url_for ('static', filename ='style.css') }}">
-  </head>
-  <body>
-    <h1>Ce site n'est pas du tout fini à cause de :  <span>{{name}}!!</span></h1>
-  </body>
-</html>
+{% extends "base.html" %}
+
+{% block main %}
+
+<head>
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="{{ url_for ('static', filename ='style.css') }}">
+</head>
+
+<body>
+  <h1>Ce site n'est pas du tout fini à cause de : <span>{{name}}!!</span></h1>
+</body>
+
+{% endblock %}
