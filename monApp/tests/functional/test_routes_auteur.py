@@ -1,4 +1,4 @@
-from monApp import app
+from monApp import app,commands
 from monApp.models import Auteur
 
 
@@ -29,8 +29,6 @@ def login(client, username, password, next_path):
 
 def test_auteur_update_after_login(client, testapp):
     with app.app_context():
-        print(testapp)
-        print("6 million (lol)")
         # user non connecté
         response = client.get('/auteurs/1/update/', follow_redirects=False)
         # Redirection vers la page de login
