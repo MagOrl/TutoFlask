@@ -1,7 +1,6 @@
 import pytest
 from monApp import app, db, commands
 from monApp.models import Auteur, Livre, User
-from hashlib import sha256
 
 
 @pytest.fixture
@@ -20,6 +19,7 @@ def testapp():
                       Url="",
                       Img="",
                       auteur_id=auteur.idA)
+        from hashlib import sha256
         pwd = "AIGRE"
         m = sha256()
         m.update(pwd.encode())

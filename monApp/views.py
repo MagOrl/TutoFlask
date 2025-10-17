@@ -136,11 +136,13 @@ def insertAuteur():
         return redirect(url_for('viewAuteur', idA=insertedId))
     return render_template("auteur_create.html", createForm=unForm)
 @app.route('/auteurs/<idA>/delete/')
+@login_required
 def deleteAuteur(idA):
     unAuteur = Auteur.query.get(idA)
     unForm = FormAuteur(idA=unAuteur.idA, Nom=unAuteur.Nom)
     return render_template("auteur_delete.html",selectedAuteur=unAuteur, deleteForm=unForm)
 @app.route ('/auteur/erase/', methods =("POST" ,))
+@login_required
 def eraseAuteur():
     deletedAuteur = None
     unForm = FormAuteur()
