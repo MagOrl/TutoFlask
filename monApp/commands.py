@@ -22,6 +22,7 @@ def newuser(login, pwd):
     db.session.add(unUser)
     db.session.commit()
     lg.warning('User ' + login + ' created!')
+    
 @app.cli.command()
 @click.argument('log')
 @click.argument('pwd')

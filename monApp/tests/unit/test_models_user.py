@@ -1,8 +1,6 @@
-import pytest
-from monApp import app, db
 from monApp.models import User ,load_user
 
-@pytest.fixture
-def testuser():
-    user = User("CDAL","AIGRE")
-    assert user == load_user(user.get_id())
+def testuser(testapp):
+    with testapp.app_context():
+        user = User(Login="CDAL",Password="AIGRE")
+        assert user == load_user("CDAL")

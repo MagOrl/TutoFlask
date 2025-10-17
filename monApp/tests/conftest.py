@@ -1,6 +1,6 @@
 import pytest
-from monApp import app, db
-from monApp.models import Auteur, Livre
+from monApp import app, db, commands
+from monApp.models import Auteur, Livre,User
 
 
 @pytest.fixture
@@ -19,7 +19,9 @@ def testapp():
                       Url="",
                       Img="",
                       auteur_id=auteur.idA)
+        user = User(Login="CDAL",Password ="AIGRE")
         db.session.add(auteur)
+        db.session.add(user)
         db.session.add(livre)
         db.session.commit()
     yield app
